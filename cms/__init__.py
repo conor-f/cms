@@ -34,15 +34,16 @@ import cms.log
 # Define what this package will provide.
 
 __all__ = [
-    "LANG_C", "LANG_CPP", "LANG_PASCAL", "LANG_PYTHON", "LANG_PHP",
+    "LANG_C", "LANG_CPP", "LANG_PASCAL", "LANG_PYTHON", "LANG_PHP", "LANG_HASKELL", "LANG_PERL",
     "LANGUAGE_NAMES", "LANGUAGES", "DEFAULT_LANGUAGES",
     "SOURCE_EXT_TO_LANGUAGE_MAP",
     "LANGUAGE_TO_SOURCE_EXT_MAP", "LANGUAGE_TO_HEADER_EXT_MAP",
     # log
     # Nothing intended for external use, no need to advertise anything.
     # util
-    "mkdir", "Address", "ServiceCoord", "get_safe_shard",
-    "get_service_address", "get_service_shards", "default_argument_parser",
+    "mkdir", "Address", "ServiceCoord", "get_service_address",
+    "get_shard_from_addresses", "get_service_shards",
+    "default_argument_parser", "find_local_addresses",
     # conf
     "config",
     # plugin
@@ -59,6 +60,8 @@ LANG_PASCAL = "pas"
 LANG_PYTHON = "py"
 LANG_PHP = "php"
 LANG_JAVA = "java"
+LANG_HASKELL = "hs"
+LANG_PERL = "pl"
 
 LANGUAGE_NAMES = {
     LANG_C: "C",
@@ -67,10 +70,12 @@ LANGUAGE_NAMES = {
     LANG_PYTHON: "Python",
     LANG_PHP: "PHP",
     LANG_JAVA: "Java",
+	LANG_HASKELL: "Haskell",
+	LANG_PERL: "Perl",
 }
 
-LANGUAGES = [LANG_C, LANG_CPP, LANG_PASCAL, LANG_PYTHON, LANG_PHP, LANG_JAVA]
-DEFAULT_LANGUAGES = [LANG_C, LANG_CPP, LANG_PASCAL]
+LANGUAGES = [LANG_C, LANG_CPP, LANG_PASCAL, LANG_PYTHON, LANG_PHP, LANG_JAVA, LANG_HASKELL, LANG_PERL]
+DEFAULT_LANGUAGES = [LANG_C, LANG_CPP, LANG_PASCAL, LANG_PYTHON, LANG_PHP, LANG_JAVA, LANG_HASKELL, LANG_PERL]
 
 # A reference for extension-based automatic language detection.
 # (It's more difficult with headers because ".h" is ambiguous.)
@@ -85,6 +90,8 @@ SOURCE_EXT_TO_LANGUAGE_MAP = {
     ".py": LANG_PYTHON,
     ".php": LANG_PHP,
     ".java": LANG_JAVA,
+	".hs": LANG_HASKELL,
+	".pl": LANG_PERL,
 }
 
 # Our preferred source file and header file extension for each language.
@@ -95,6 +102,8 @@ LANGUAGE_TO_SOURCE_EXT_MAP = {
     LANG_PYTHON: ".py",
     LANG_PHP: ".php",
     LANG_JAVA: ".java",
+	LANG_HASKELL: ".hs",
+	LANG_PERL: ".pl",
 }
 LANGUAGE_TO_HEADER_EXT_MAP = {
     LANG_C: ".h",
@@ -103,9 +112,12 @@ LANGUAGE_TO_HEADER_EXT_MAP = {
     LANG_PYTHON: ".py",
     LANG_PHP: ".php",
     LANG_JAVA: ".java",
+	LANG_HASKELL: ".hs",
+	LANG_PERL: ".pl",
 }
 
-from .util import mkdir, Address, ServiceCoord, get_safe_shard, \
-    get_service_address, get_service_shards, default_argument_parser
+from .util import mkdir, Address, ServiceCoord, get_service_address, \
+    get_shard_from_addresses, get_service_shards, \
+    default_argument_parser, find_local_addresses
 from .conf import config
 from .plugin import plugin_list, plugin_lookup

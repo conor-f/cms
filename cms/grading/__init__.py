@@ -30,7 +30,7 @@ from collections import namedtuple
 
 from sqlalchemy.orm import joinedload
 
-from cms import LANG_C, LANG_CPP, LANG_PASCAL, LANG_PYTHON, LANG_PHP, LANG_JAVA
+from cms import LANG_C, LANG_CPP, LANG_PASCAL, LANG_PYTHON, LANG_PHP, LANG_JAVA, LANG_HASKELL, LANG_PERL
 from cms.db import Submission
 from cms.grading.Sandbox import Sandbox
 
@@ -133,6 +133,11 @@ def get_compilation_command(language, source_filenames, executable_filename,
                         "exec": executable_filename,
                         "class": class_name
                         }]
+	elif language == LANG_HASKELL:
+		command += ["/bin/ghc -o %s %s" % (executable_filename, source_filenames)]
+	elif language == LANG_PERL:
+		command = ["/bin/perlcompile", "-o", executable_filename]
+		command += source_filenames
     else:
         raise ValueError("Unknown language %s." % language)
     return command
@@ -151,7 +156,7 @@ def get_evaluation_command(language, executable_filename):
     return (list): a list of string to be passed to subprocess.
 
     """
-    if language in (LANG_C, LANG_CPP, LANG_PASCAL, LANG_JAVA):
+    if language in (LANG_C, LANG_CPP, LANG_PASCAL, LANG_JAVA, LANG_HASKELL, LANG_PERL):
         command = [os.path.join(".", executable_filename)]
     elif language == LANG_PYTHON:
         command = ["/bin/sh", "-c"]
