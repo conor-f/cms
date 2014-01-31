@@ -133,11 +133,13 @@ def get_compilation_command(language, source_filenames, executable_filename,
                         "exec": executable_filename,
                         "class": class_name
                         }]
-	elif language == LANG_HASKELL:
-		command += ["/bin/ghc -o %s %s" % (executable_filename, source_filenames)]
-	elif language == LANG_PERL:
-		command = ["/bin/perlcompile", "-o", executable_filename]
+    elif language == LANG_HASKELL:
+        command = ["/bin/ghc"]
+		command += ["-o", executable_filename]
 		command += source_filenames
+    elif language == LANG_PERL:
+        command = ["/bin/perlcompile", "-o", executable_filename]
+        command += source_filenames
     else:
         raise ValueError("Unknown language %s." % language)
     return command
